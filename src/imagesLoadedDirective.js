@@ -1,21 +1,11 @@
 import imagesLoaded from 'imagesLoaded'
 import Vue from 'vue'
 
-function updateList(array, {src, img}){
-    const found = array.find(element => {return element.img===img})
-    if (!!found) {
-        found.src = src
-        return
-    }
-    array.push({src, img})
-}
-
 function checkFunction(callBack, message=''){
     if (typeof callBack !=='function'){
         throw `imageLoaded directive error: objet ${callBack} should be a function ${message}`
     }
 }
-
 
 function getImagesLoaded(elem, {value, arg, modifiers}) {   
     if (!arg) {
@@ -36,35 +26,26 @@ function getImagesLoaded(elem, {value, arg, modifiers}) {
     return imgLoad
 }
 
-function getProgress (el) {
-    return (imageLoaded, image) => updateList(el.__imagesLoaded__.images, {src: image.img.src, img: image.img }) 
+function updateImage( newImage, oldImage){
+    !oldImage || Object.assign(newImage, oldImage) 
 }
 
 function applyImagesLoaded (el, binding, oldContext) { 
-    const progress = el.__imagesLoaded__.progress
     const newContext = getImagesLoaded(el, binding) 
-    if (oldContext){
-        oldContext.off('progress', progress);
-        const alreadyProcessed = el.__imagesLoaded__.images
-        const images = newContext.images.filter(loadingImg => {return !alreadyProcessed.find(processed => {return processed.img===loadingImg.img && processed.src===loadingImg.img.src})})
-        newContext.images = images
+    if (oldContext) {
+        const oldImages = oldContext.images
+        newContext.images.forEach(img => updateImage(img, oldImages.find(oldImg => {return oldImg.img === img.img})) )
     }
-    newContext.on( 'progress', progress);
     return newContext   
 }
 
 export default {
-    bind (el) {
-        el.__imagesLoaded__ = { progress: getProgress(el), images: [] }
-    },
     inserted (el, binding){
-        const imageLoaded = applyImagesLoaded(el, binding)
-        el.__imagesLoaded__.imageLoaded = imageLoaded
+        el.__imagesLoaded__ = applyImagesLoaded(el, binding)
     },
     componentUpdated (el, binding){
         Vue.nextTick( () => {
-            const imageLoaded = applyImagesLoaded(el, binding, el.__imagesLoaded__.imageLoaded)
-            el.__imagesLoaded__.imageLoaded = imageLoaded
+            el.__imagesLoaded__ =  applyImagesLoaded(el, binding, el.__imagesLoaded__)
         });       
     },
     unbind (el, binding) {
