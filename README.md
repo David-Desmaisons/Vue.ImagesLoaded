@@ -62,14 +62,79 @@ export default {
     }
 ```
 
+## API
+
+### Using directive
+- When used without argument nor modifiers:
+```HTML
+<div v-images-loaded:"loaded">
+```
+Directive value:<br>
+```javascript
+function loaded(instance){
+    //...
+}
+```
+loaded is a `Function` triggered after all images have been either loaded or confirmed broken.<br>
+Function parameter: ImagesLoaded instance
+
+- When used with `on` argument but no modifiers:
+```HTML
+<div v-images-loaded.on:"listener">
+```
+Directive value:<br>
+```javascript
+listener:{
+    done(instance){
+        //...
+    },
+    fail(instance){
+        //...
+    }
+}
+```
+listener is an `Object` containing callback functions.<br>
+Function should be named and will received arguments as described in [Imagesloaded](http://imagesloaded.desandro.com/) 
+
+- When used with `on` argument and modifier:
+```HTML
+<div v-images-loaded.on.progress:"callback">
+```
+Directive value:<br>
+```javascript
+function callback(instance, img){
+    //...
+}
+```
+callback is a `Function` triggered acording to modifier name `always`, `done`, `fail`, `progress`.<br>
+Function parameter: ImagesLoaded instance, and image information for `progess` only.
+
+### ImagesLoaded instance
+
+- Properties:
+    - imagesLoaded.images<br>
+
+        `Array` of LoadingImage instances for each image detected<br>
+
+### LoadingImage instance
+
+- Property:
+    - LoadingImage.img
+
+        `Image` - The img element
+
+    - LoadingImage.isLoaded
+
+        `Boolean` - true when the image has succesfully loaded
+
 
 ## Installation
-- Available through:
+- Available through bower and npm:
 ``` js
  npm install vue-images-loaded --save
 ```
 ``` js
- Bower install vue.ImagesLoaded -save
+ bower install vue.ImagesLoaded -save
 ```
 
 - #### For Modules
