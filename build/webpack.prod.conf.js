@@ -34,6 +34,12 @@ var webpackConfig = merge(baseWebpackConfig, {
       commonjs2: 'imagesLoaded',
       commonjs: 'imagesLoaded',
       amd: 'imagesLoaded'
+    },
+    "lodash.isequal": {
+      root: '_',
+      commonjs2: 'lodash.isequal',
+      commonjs: 'lodash.isequal',
+      amd: 'lodash.isequal'
     }
   },
   vue: {
