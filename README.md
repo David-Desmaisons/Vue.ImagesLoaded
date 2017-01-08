@@ -12,6 +12,10 @@ A Vue.js 2.0 directive to detect when images have been loaded, based on [imagesL
 This directive allows to get a callback when children images are loaded in a container element.<br>
 Plays nicely with [vue.isotope](https://github.com/David-Desmaisons/Vue.Isotope) to allow re-layout when images are loaded.
 
+## Demo
+
+![demo gif](vueimagesloaded.gif)
+
 
 ## Typical usage
 ```HTML
