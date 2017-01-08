@@ -1,7 +1,11 @@
 <template>
   <div class="hello">
     <div class="status">
-      <progress-bar v-show="loading" class="progress-half"  :type="status" :size="'large'" :value="currentImg" :max="maxImg" :show-label="true"></progress-bar>
+      <div class="progress-half" v-show="loading">
+        Loding images: {{currentImg}} of {{maxImg}}
+        <progress-bar :type="status" :size="'large'" :value="currentImg" :max="maxImg" :show-label="false"></progress-bar>
+      </div>
+      
     </div>
 
     <isotope ref="isotope" :options='options' :list="list" v-images-loaded:on="getLoadingCallBack()">
@@ -20,7 +24,8 @@ import imagesLoaded from '../../src/imagesLoadedDirective'
 import ProgressBar from 'vue-bulma-progress-bar'
 
 import isotope from 'vueisotope'
-const names= ['John', 'Ringo', 'Paul', 'George']
+const names = ['John', 'Ringo', 'Paul', 'George', 'Jimmy', 'Mick', 'John', 'Ringo', 'Paul', 'George']
+let count = names.length
 
 function getImageSrc () {
   var size = Math.random() * 3 + 1;
@@ -28,14 +33,13 @@ function getImageSrc () {
   width = Math.round( width * size );
   var height = Math.round( 140 * size );
   var rando = Math.ceil( Math.random() * 1000 );
-  // 25% chance of broken image src
+  // 10% chance of broken image src
   // random parameter to prevent cached images
-  return rando < 250 ? '//foo/broken-' + rando + '.jpg' :
+  return rando < 100 ? '//foo/broken-' + rando + '.jpg' :
     // use lorempixel for great random images
     '//lorempixel.com/' + width + '/' + height + '/' + '?' + rando;
 }
 
-var count = 4
 var cpt=0;
 
 export default {
@@ -112,7 +116,7 @@ export default {
 }
 
 .status {
-  height: 40px;
+  height: 60px;
   display: flex;
   align-items: center;
 }

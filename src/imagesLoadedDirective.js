@@ -1,8 +1,19 @@
 import imagesLoaded from 'imagesLoaded'
-import lodashEqual from 'lodash.isequal'
 import Vue from 'vue'
 
-const { isEqual = lodashEqual } = lodashEqual
+function isEqual (firstArray, secondArray) {
+    const length = firstArray.length
+    if ( length != secondArray.length) {
+        return false;
+    }   
+    for (let i = 0; i < length; i++) {
+        const first = firstArray[i], second = secondArray[i]
+        if ((first.img!==second.img) || (first.src!==second.src)){
+            return false;
+        }
+    }   
+    return true;
+}
 
 function checkFunction(callBack, message=''){
     if (typeof callBack !=='function'){
@@ -13,7 +24,7 @@ function checkFunction(callBack, message=''){
 function registerImageLoaded(imgLoad, {value, arg, modifiers}) {   
     if (!arg) {
         checkFunction(value)
-        imgLoad.on('always', value)
+        imgLoad.on('always', (inst) => setTimeout(() => value(inst)) )
         return
     }
 
@@ -24,7 +35,7 @@ function registerImageLoaded(imgLoad, {value, arg, modifiers}) {
     for (var key in keys) {
         const callBack = getCallBack(key)
         checkFunction(callBack, !hasModifier? `property ${key} of ${value}` : '')
-        imgLoad[arg](key, callBack)
+        imgLoad[arg](key, (inst, img) => setTimeout(() => callBack(inst, img)))
     } 
 }
 
