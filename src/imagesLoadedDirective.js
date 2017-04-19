@@ -1,4 +1,4 @@
-import imagesLoaded from 'imagesLoaded'
+import imagesLoaded from 'imagesloaded'
 import Vue from 'vue'
 
 function isEqual (firstArray, secondArray) {

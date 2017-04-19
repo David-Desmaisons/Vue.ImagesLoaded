@@ -1,6 +1,6 @@
 {
   "name": "vue-images-loaded",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Vue.js 2.0 directive to detect image loading",
   "main": "dist/vueimagesloaded.js",
   "files": [
