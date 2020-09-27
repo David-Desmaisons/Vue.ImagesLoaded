@@ -34,9 +34,10 @@ export default {
         imagesLoaded
     },
     methods: {
-        imageProgress(instance, image ) {
-        const result = image.isLoaded ? 'loaded' : 'broken';
-        console.log( 'image is ' + result + ' for ' + image.img.src );
+        imageProgress(instance, image) {
+          const result = image.isLoaded ? 'loaded' : 'broken';
+          console.log( 'image is ' + result + ' for ' + image.img.src );
+        }
     }
 ```
 
