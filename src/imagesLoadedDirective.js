@@ -52,18 +52,18 @@ function applyImagesLoaded (el, binding) {
 }
 
 export default {
-    bind (el) {
+    beforeMount (el) {
         el.__imagesLoaded__ = { context: [] }
     },
-    inserted (el, binding){
+    mounted (el, binding){
         applyImagesLoaded(el, binding)
     },
-    componentUpdated (el, binding){
+    updated (el, binding){
         Vue.nextTick( () => {
             applyImagesLoaded(el, binding)
         });       
     },
-    unbind (el, binding) {
+    unmounted (el, binding) {
         el.__imagesLoaded__ = null
     }
 }
